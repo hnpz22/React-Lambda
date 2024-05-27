@@ -1,4 +1,3 @@
-// GetLegalCases.tsx
 import React, { useEffect, useState } from 'react';
 import '@aws-amplify/ui-react/styles.css';
 import { LegalCasesInterface } from '../elements/LegalCasesInterface';
@@ -15,25 +14,27 @@ const GetLegalCases: React.FC = () => {
   const [data, setData] = useState<ApiResponse | null>(null);
   const [error, setError] = useState<Error | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const limit = 10; // Number of items per page
 
-  const BearerToken: string = "Bearer eyJraWQiOiJKaCtRaXFhaG8yYzNiKytJM011QWhVWmgxd1pQbk8xSlwvWjlTTkVtaGZjYz0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI0NDU4MjQyOC1jMDQxLTcwYWMtN2U4Yi1jZjQwMzRiMjMxNDIiLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAudXMtZWFzdC0xLmFtYXpvbmF3cy5jb21cL3VzLWVhc3QtMV9McHVNeXl3SzkiLCJ2ZXJzaW9uIjoyLCJjbGllbnRfaWQiOiI2cTBuNGFuNmE1ZXQzOWdubzdkOGpmNDgwbiIsIm9yaWdpbl9qdGkiOiI0MTMyY2EwZC0yOTZkLTRjMzYtOTQ4Yy1kNGFmZDFjODIzYmUiLCJ0b2tlbl91c2UiOiJhY2Nlc3MiLCJzY29wZSI6InBob25lIG9wZW5pZCBlbWFpbCIsImF1dGhfdGltZSI6MTcxNjgyMDY4NywiZXhwIjoxNzE2ODI0Mjg3LCJpYXQiOjE3MTY4MjA2ODcsImp0aSI6IjM1OGMyNTE0LTQzMzItNDkwMi1iZGRjLWExZGQ2MmI1OGQ0MSIsInVzZXJuYW1lIjoiNDQ1ODI0MjgtYzA0MS03MGFjLTdlOGItY2Y0MDM0YjIzMTQyIn0.0fT-MjjA-YzpFBrGHb7wBsiKCjqGBPSIKG-iT4sp4FYQyJ1uizsEV2UwQxEqmA_BPfp4P32jdPCxqeeWAYlu3d-EQKwtFjjx3q-U4QIX3Fu0dcRiPPo-oqdyyTT797u_lqgyzXdnppO5Sk_F48M50qxdrXccttTSrpqOk9zEIuSN3zqsQfKomFrjZUdVoWxQDhVy9IX3a-dh16WXonPH1sV8Fq3cfAz1f7nks5DUa4P1k6C47I3ediX3Nnx7PynV5vJMW1zHMFdiMzuS6jf7f0I98yzm132_WNj3vuNG9_lokWdY2E0sf3mxoR6J2LLCWMEFNRl0kwaQ-MLp3oznlg";
+  const BearerToken: string = "Bearer eyJraWQiOiJKaCtRaXFhaG8yYzNiKytJM011QWhVWmgxd1pQbk8xSlwvWjlTTkVtaGZjYz0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI0NDU4MjQyOC1jMDQxLTcwYWMtN2U4Yi1jZjQwMzRiMjMxNDIiLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAudXMtZWFzdC0xLmFtYXpvbmF3cy5jb21cL3VzLWVhc3QtMV9McHVNeXl3SzkiLCJ2ZXJzaW9uIjoyLCJjbGllbnRfaWQiOiI2cTBuNGFuNmE1ZXQzOWdubzdkOGpmNDgwbiIsIm9yaWdpbl9qdGkiOiJhZjgwMTVhOC0xNzZhLTQzODktYTA3Mi0yYWYwOTdkZjUxYzgiLCJldmVudF9pZCI6IjIzYTcxODc1LTJjM2YtNDc5ZC05MzhiLWEwYzUwOWVjN2JiNiIsInRva2VuX3VzZSI6ImFjY2VzcyIsInNjb3BlIjoicGhvbmUgb3BlbmlkIGVtYWlsIiwiYXV0aF90aW1lIjoxNzE2ODIwMzcwLCJleHAiOjE3MTY4MjM5NzAsImlhdCI6MTcxNjgyMDM3MCwianRpIjoiOWViZWRmYWEtMzA4NS00OWUxLWI4MDktOTk2NzZiOTJkMmUwIiwidXNlcm5hbWUiOiI0NDU4MjQyOC1jMDQxLTcwYWMtN2U4Yi1jZjQwMzRiMjMxNDIifQ.AhYSqLmo6A_cRooJKOHQZrRAUqpVDPjJoAnNZFDDP7DAQatmOad0XaYNDmLR-Qcr8JWgqsA2_Bm7pnJYIlUy9HxXtV2TWo9VKfYDhh7CTKAlEP6wOs2DsjdUAnXPjEjEeGQ78tsaKoTNiUjLUQMRpPUj0jrWLVxsCE6fEomsX6WUPjolHhQvZgbM3qdHJ4eusdTxGAbs8EkeCTwIpZHmiAgQGrA3TEt7kmFmisftf5z9u0LqqNiqdo3eqarnIme-UZjR2xCO55-3hoc-Q1duoSEbFUTT9j8A-o-zhcRuN-cJDzt6r-jhuqWGpDBPAodinsh7hyXwbir90Yc-rkxWqA";
 
   const fetchLegalCases = async (page: number) => {
+    const offset = (page - 1) * limit;
     const myHeaders = new Headers();
     myHeaders.append("Authorization", BearerToken);
 
     const requestOptions: RequestInit = {
       method: "GET",
       headers: myHeaders,
-      redirect: "follow",
+      redirect: "follow"
     };
 
     try {
-      const response = await fetch(`https://rhg5a9pdvh.execute-api.us-east-1.amazonaws.com/legalCases?page=${page}`, requestOptions);
+      const response = await fetch(`https://rhg5a9pdvh.execute-api.us-east-1.amazonaws.com/legalCases?limit=${limit}&offset=${offset}`, requestOptions);
       const result: ApiResponse = await response.json();
       setData(result);
     } catch (error) {
-      setError(error as Error);
+      setError(error as Error); // Explicitly cast the error to Error
     }
   };
 
@@ -67,7 +68,7 @@ const GetLegalCases: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {data.casosPorPagina.map((legalCase) => (
+              {data.casosPorPagina.map(legalCase => (
                 <LegalCaseItem key={legalCase.case_id} legalCase={legalCase} />
               ))}
             </tbody>
