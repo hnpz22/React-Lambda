@@ -1,9 +1,8 @@
 import React from 'react';
+import '@aws-amplify/ui-react/styles.css'; // Import styles
+import { Tabs } from '@aws-amplify/ui-react'; // Import Tabs component
 import GetLegalCases from './components/crud/GetLegalCases';
 import CreateLegalCase from './components/crud/PostLegalCases';
-import '@aws-amplify/ui-react/styles.css';
-import { Tabs } from '@aws-amplify/ui-react';
-
 
 const App: React.FC = () => {
   return (
@@ -17,7 +16,7 @@ const App: React.FC = () => {
         ]}
       />
     </>
-    );
+  );
 };
 
 export default App;
